@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#ffffff">
+  <title>Para Você, Meu Amor ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Partículas / corações -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Transição cinematográfica -->
+  <div id="cinematic-overlay" class="cinematic-overlay" aria-hidden="true">
+    <div class="cinematic-bar cinematic-bar--top"></div>
+    <div class="cinematic-bar cinematic-bar--bottom"></div>
+  </div>
+
+  <!-- TELA 1 — Introdução -->
+  <section id="screen-intro" class="screen screen--active" data-screen="intro">
+    <div class="screen__content screen__content--intro">
+      <p id="typing-text" class="typing-text" aria-live="polite"></p>
+      <div id="intro-button-area" class="intro-button-area hidden">
+        <button id="btn-next-step" class="btn btn--primary btn--escape" type="button">
+          Próxima etapa
+        </button>
+        <p id="escape-message" class="escape-message hidden" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA 2 — Pergunta 1 -->
+  <section id="screen-q1" class="screen" data-screen="q1">
+    <div class="screen__content">
+      <h2 class="screen__title">Qual a sua comida favorita?</h2>
+      <div class="options-grid" role="group" aria-label="Opções de comida">
+        <button class="btn btn--option" data-answer="wrong" type="button">Churrasco</button>
+        <button class="btn btn--option" data-answer="correct" type="button">Sushi</button>
+        <button class="btn btn--option" data-answer="wrong" type="button">Tacacá</button>
+        <button class="btn btn--option" data-answer="wrong" type="button">Açaí</button>
+      </div>
+      <p id="q1-feedback" class="feedback hidden" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- TELA 3 — Pergunta 2 -->
+  <section id="screen-q2" class="screen" data-screen="q2">
+    <div class="screen__content">
+      <h2 class="screen__title">Qual vai ser o nome da nossa futura filha?</h2>
+      <div class="options-grid options-grid--names" role="group" aria-label="Opções de nome">
+        <button class="btn btn--option btn--miranda" data-name="Miranda" type="button">Miranda</button>
+        <button class="btn btn--option" data-name="Laura" type="button">Laura</button>
+        <button class="btn btn--option" data-name="Lorena" type="button">Lorena</button>
+        <button class="btn btn--option" data-name="Lourenza" type="button">Lourenza</button>
+      </div>
+      <p id="q2-feedback" class="feedback hidden" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- TELA 4 — Pergunta final -->
+  <section id="screen-q3" class="screen" data-screen="q3">
+    <div class="screen__content">
+      <h2 class="screen__title">Você me ama, amor?</h2>
+      <div class="love-buttons">
+        <button id="btn-yes" class="btn btn--love btn--yes" type="button">SIM ❤️</button>
+        <button id="btn-no" class="btn btn--love btn--no btn--flee" type="button">NÃO 😢</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELA 5 — Galeria -->
+  <section id="screen-gallery" class="screen screen--gallery" data-screen="gallery">
+    <div class="gallery-container">
+      <div id="gallery-slides" class="gallery-slides"></div>
+      <p id="gallery-caption" class="gallery-caption"></p>
+    </div>
+    <audio id="romantic-music" preload="auto" loop></audio>
+  </section>
+
+  <!-- TELA 6 — Declaração final -->
+  <section id="screen-declaration" class="screen screen--dark" data-screen="declaration">
+    <div class="declaration-content">
+      <p id="declaration-line" class="declaration-line"></p>
+    </div>
+  </section>
+
+  <!-- Pós-créditos -->
+  <section id="screen-credits" class="screen screen--dark screen--credits" data-screen="credits">
+    <div class="credits-wrapper">
+      <div id="credits-scroll" class="credits-scroll">
+        <div class="credits-block">
+          <p>Eu te amo.</p>
+          <p>I love you.</p>
+          <p>Je t'aime.</p>
+          <p>Te amo.</p>
+          <p>Ti amo.</p>
+          <p>Ich liebe dich.</p>
+          <p>愛してる。</p>
+          <p>사랑해.</p>
+          <p>我爱你.</p>
+          <p>Я тебя люблю.</p>
+          <p>Ik hou van je.</p>
+          <p>Seni seviyorum.</p>
+          <p>Jeg elsker deg.</p>
+          <p>Jag älskar dig.</p>
+          <p>Kocham cię.</p>
+        </div>
+        <div class="credits-finale">
+          <p class="credits-finale__title">Feliz Dia dos Namorados ❤️</p>
+          <p class="credits-finale__subtitle">Obrigado por existir na minha vida.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

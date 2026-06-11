@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="g8" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffebee"/>
+      <stop offset="100%" style="stop-color:#ce93d8"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g8)"/>
+  <text x="600" y="400" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#880e4f" opacity="0.5">Foto 8</text>
+</svg>
