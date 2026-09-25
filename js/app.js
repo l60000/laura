@@ -1,3 +1,4 @@
+javascript
 /**
  * Dia dos Namorados — Experiência Romântica
  */
@@ -27,7 +28,6 @@
   const galleryBgHearts = document.getElementById('gallery-bg-hearts');
   const galleryFrame = document.querySelector('.gallery-frame');
   const romanticMusic = document.getElementById('romantic-music');
-  const finaleMusic = document.getElementById('finale-music');
   const declarationLine = document.getElementById('declaration-line');
   const creditsLine = document.getElementById('credits-line');
   const btnFinale = document.getElementById('btn-finale');
@@ -93,9 +93,17 @@
   // ── Efeito de digitação ──
   async function typeText(text, speed = 45) {
     for (let i = 0; i < text.length; i++) {
-      typingEl.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
+      typingEl.innerHTML =
+        text.slice(0, i + 1) + '<span class="cursor"></span>';
+
       const char = text[i];
-      const delay = char === '.' || char === ',' ? speed * 4 : char === ' ' ? speed * 0.5 : speed;
+      const delay =
+        char === '.' || char === ','
+          ? speed * 4
+          : char === ' '
+            ? speed * 0.5
+            : speed;
+
       await wait(delay + randomBetween(-10, 15));
     }
   }
@@ -113,7 +121,7 @@
     btnNextStep.style.top = '50%';
   }
 
-  // ── Botão que escapa (Tela 1) ──
+  // ── Botão que escapa ──
   function getRandomPosition(button, container) {
     const padding = 16;
     const btnW = button.offsetWidth;
@@ -136,6 +144,7 @@
       heart.style.top = `${y + randomBetween(-20, 20)}px`;
       heart.style.animationDelay = `${i * 0.15}s`;
       document.body.appendChild(heart);
+
       setTimeout(() => heart.remove(), 2500);
     }
   }
@@ -150,10 +159,12 @@
 
       escapeMessage.textContent = ESCAPE_MESSAGES[escapeAttempts];
       escapeMessage.classList.remove('hidden');
+
       spawnFloatingHearts(centerX, centerY);
       spawnParticles(15);
 
       const pos = getRandomPosition(btnNextStep, introButtonArea);
+
       btnNextStep.style.left = `${pos.x}px`;
       btnNextStep.style.top = `${pos.y}px`;
       btnNextStep.style.transform = 'none';
@@ -172,9 +183,10 @@
     initQ1();
   });
 
-  // ── Partículas / corações ──
+  // ── Partículas ──
   function spawnParticles(count = 20) {
     const ctx = particlesCanvas.getContext('2d');
+
     particlesCanvas.width = window.innerWidth;
     particlesCanvas.height = window.innerHeight;
     particlesCanvas.classList.add('active');
@@ -196,7 +208,12 @@
     }
 
     function animate() {
-      ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+      ctx.clearRect(
+        0,
+        0,
+        particlesCanvas.width,
+        particlesCanvas.height
+      );
 
       particles.forEach((p) => {
         p.y += p.speedY;
@@ -221,7 +238,10 @@
       particlesAnimId = requestAnimationFrame(animate);
     }
 
-    if (particlesAnimId) cancelAnimationFrame(particlesAnimId);
+    if (particlesAnimId) {
+      cancelAnimationFrame(particlesAnimId);
+    }
+
     animate();
 
     setTimeout(stopParticles, 4000);
@@ -232,6 +252,7 @@
       cancelAnimationFrame(particlesAnimId);
       particlesAnimId = null;
     }
+
     particlesCanvas.classList.remove('active');
   }
 
@@ -245,11 +266,15 @@
         if (btn.dataset.answer === 'correct') {
           btn.classList.add('correct-flash');
           options.forEach((b) => (b.disabled = true));
+
           feedback.textContent = 'Acertei, né amor? ❤️';
           feedback.classList.remove('hidden');
+
           spawnParticles(25);
+
           await wait(3500);
           await transitionTo('q2');
+
           initQ2();
         } else {
           btn.style.opacity = '0.4';
@@ -261,213 +286,356 @@
 
   // ── Tela 3: Nome da filha ──
   function initQ2() {
-    const mirandaBtn = screens.q2.querySelector('[data-name="Miranda"]');
-    const feedback = document.getElementById('q2-feedback');
+    const mirandaBtn =
+      screens.q2.querySelector('[data-name="Miranda"]');
+
+    const feedback =
+      document.getElementById('q2-feedback');
 
     mirandaBtn.classList.add('btn--highlight');
 
-    screens.q2.querySelectorAll('.btn--option').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (btn.dataset.name === 'Miranda') {
-          screens.q2.querySelectorAll('.btn--option').forEach((b) => (b.disabled = true));
-          feedback.textContent = 'Por que não Lourenza, amorzinho? 😂❤️';
-          feedback.classList.remove('hidden');
-          spawnParticles(20);
-          await wait(4000);
-          await transitionTo('q3');
-          initQ3();
-        } else {
-          mirandaBtn.classList.add('correct-flash');
-          btn.style.opacity = '0.35';
-          setTimeout(() => {
-            btn.style.opacity = '';
-            mirandaBtn.classList.remove('correct-flash');
-          }, 600);
-        }
+    screens.q2
+      .querySelectorAll('.btn--option')
+      .forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (btn.dataset.name === 'Miranda') {
+            screens.q2
+              .querySelectorAll('.btn--option')
+              .forEach((b) => (b.disabled = true));
+
+            feedback.textContent =
+              'Por que não Lourenza, amorzinho? 😂❤️';
+
+            feedback.classList.remove('hidden');
+            spawnParticles(20);
+
+            await wait(4000);
+            await transitionTo('q3');
+
+            initQ3();
+          } else {
+            mirandaBtn.classList.add('correct-flash');
+            btn.style.opacity = '0.35';
+
+            setTimeout(() => {
+              btn.style.opacity = '';
+              mirandaBtn.classList.remove('correct-flash');
+            }, 600);
+          }
+        });
       });
-    });
   }
 
   // ── Tela 4: Você me ama? ──
   function initQ3() {
-    const loveButtonsContainer = screens.q3.querySelector('.love-buttons');
+    const loveButtonsContainer =
+      screens.q3.querySelector('.love-buttons');
 
     btnNo.addEventListener('mouseenter', fleeNoButton);
-    btnNo.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      fleeNoButton();
-    }, { passive: false });
+
+    btnNo.addEventListener(
+      'touchstart',
+      (e) => {
+        e.preventDefault();
+        fleeNoButton();
+      },
+      { passive: false }
+    );
 
     function fleeNoButton() {
-      const containerRect = loveButtonsContainer.getBoundingClientRect();
-      const btnRect = btnNo.getBoundingClientRect();
+      const containerRect =
+        loveButtonsContainer.getBoundingClientRect();
 
-      const maxX = containerRect.width - btnRect.width;
-      const maxY = containerRect.height - btnRect.height;
+      const btnRect =
+        btnNo.getBoundingClientRect();
 
-      const newX = randomBetween(0, Math.max(0, maxX));
-      const newY = randomBetween(0, Math.max(0, maxY));
+      const maxX =
+        containerRect.width - btnRect.width;
+
+      const maxY =
+        containerRect.height - btnRect.height;
+
+      const newX =
+        randomBetween(0, Math.max(0, maxX));
+
+      const newY =
+        randomBetween(0, Math.max(0, maxY));
 
       btnNo.style.position = 'absolute';
       btnNo.style.left = `${newX}px`;
       btnNo.style.top = `${newY}px`;
     }
 
+    /*
+     * IMPORTANTE:
+     * A música romântica começa diretamente no clique.
+     * Isso faz o navegador móvel autorizar esse elemento <audio>.
+     */
     btnYes.addEventListener('click', async () => {
-  spawnParticles(40);
+      spawnParticles(40);
 
-  // Desbloqueia a música final enquanto ainda estamos
-  // dentro de uma interação direta do usuário.
-  if (finaleMusic) {
-    finaleMusic.src = SITE_CONFIG.finaleMusicSrc || SITE_CONFIG.musicSrc;
-    finaleMusic.volume = 0;
-    finaleMusic.loop = true;
+      await startRomanticMusic();
 
-    try {
-      await finaleMusic.play();
-      finaleMusic.pause();
-      finaleMusic.currentTime = 0;
-    } catch (error) {
-      console.log('Não foi possível preparar a música final:', error);
-    }
+      await transitionTo('gallery');
+
+      initGallery();
+    });
   }
-
-  await startRomanticMusic();
-  await transitionTo('gallery');
-  initGallery();
-});
 
   // ── Música romântica ──
   async function startRomanticMusic() {
     if (musicStarted) return;
+
     romanticMusic.src = SITE_CONFIG.musicSrc;
     romanticMusic.volume = 0.65;
     romanticMusic.loop = false;
 
     try {
       await romanticMusic.play();
+
       musicStarted = true;
       musicStartTime = Date.now();
-    } catch {
-      await wait(300);
-      try {
-        await romanticMusic.play();
-        musicStarted = true;
-        musicStartTime = Date.now();
-      } catch {
-        /* autoplay bloqueado — tentará na galeria */
-      }
+
+      console.log('Música romântica iniciada.');
+    } catch (error) {
+      console.error(
+        'Não foi possível iniciar a música romântica:',
+        error
+      );
     }
   }
 
-  // ── Corações voando no fundo rosa ──
-  const HEART_SYMBOLS = ['❤️', '💕', '💗', '♥', '💖', '🩷'];
+  // ── Corações da galeria ──
+  const HEART_SYMBOLS =
+    ['❤️', '💕', '💗', '♥', '💖', '🩷'];
 
   function spawnBgHeart() {
     const screen = screens.gallery;
+
     if (!galleryBgHearts || !screen) return;
 
     const w = screen.offsetWidth;
-    const heart = document.createElement('span');
+
+    const heart =
+      document.createElement('span');
+
     heart.className = 'gallery-bg-heart';
-    heart.textContent = HEART_SYMBOLS[Math.floor(Math.random() * HEART_SYMBOLS.length)];
-    heart.style.left = `${randomBetween(0, Math.max(0, w - 30))}px`;
-    heart.style.fontSize = `${randomBetween(14, 26)}px`;
-    heart.style.setProperty('--drift', `${randomBetween(-60, 60)}px`);
-    heart.style.setProperty('--spin', `${randomBetween(90, 360)}deg`);
-    heart.style.animationDuration = `${randomBetween(5, 9)}s`;
+
+    heart.textContent =
+      HEART_SYMBOLS[
+        Math.floor(
+          Math.random() * HEART_SYMBOLS.length
+        )
+      ];
+
+    heart.style.left =
+      `${randomBetween(0, Math.max(0, w - 30))}px`;
+
+    heart.style.fontSize =
+      `${randomBetween(14, 26)}px`;
+
+    heart.style.setProperty(
+      '--drift',
+      `${randomBetween(-60, 60)}px`
+    );
+
+    heart.style.setProperty(
+      '--spin',
+      `${randomBetween(90, 360)}deg`
+    );
+
+    heart.style.animationDuration =
+      `${randomBetween(5, 9)}s`;
 
     galleryBgHearts.appendChild(heart);
-    heart.addEventListener('animationend', () => heart.remove());
+
+    heart.addEventListener(
+      'animationend',
+      () => heart.remove()
+    );
   }
 
   function startGalleryHearts() {
     stopGalleryHearts();
+
     for (let i = 0; i < 14; i++) {
-      setTimeout(spawnBgHeart, i * 120);
+      setTimeout(
+        spawnBgHeart,
+        i * 120
+      );
     }
-    galleryHeartsInterval = setInterval(spawnBgHeart, 450);
+
+    galleryHeartsInterval =
+      setInterval(
+        spawnBgHeart,
+        450
+      );
   }
 
   function stopGalleryHearts() {
     if (galleryHeartsInterval) {
-      clearInterval(galleryHeartsInterval);
+      clearInterval(
+        galleryHeartsInterval
+      );
+
       galleryHeartsInterval = null;
     }
-    if (galleryBgHearts) galleryBgHearts.innerHTML = '';
+
+    if (galleryBgHearts) {
+      galleryBgHearts.innerHTML = '';
+    }
   }
 
   // ── Transição entre fotos ──
   function buildGallerySlides() {
     gallerySlides.innerHTML = '';
-    const slideA = document.createElement('div');
-    const slideB = document.createElement('div');
+
+    const slideA =
+      document.createElement('div');
+
+    const slideB =
+      document.createElement('div');
+
     slideA.className = 'gallery-slide';
     slideB.className = 'gallery-slide';
-    slideA.innerHTML = '<img alt="Nossa memória">';
-    slideB.innerHTML = '<img alt="Nossa memória">';
+
+    slideA.innerHTML =
+      '<img alt="Nossa memória">';
+
+    slideB.innerHTML =
+      '<img alt="Nossa memória">';
+
     gallerySlides.appendChild(slideA);
     gallerySlides.appendChild(slideB);
-    return { slideA, slideB };
+
+    return {
+      slideA,
+      slideB,
+    };
   }
 
-  async function transitionPhoto(slides, src, alt, isFirst) {
-    const { slideA, slideB, useA } = slides;
-    const incoming = useA ? slideA : slideB;
-    const outgoing = useA ? slideB : slideA;
-    const img = incoming.querySelector('img');
+  async function transitionPhoto(
+    slides,
+    src,
+    alt,
+    isFirst
+  ) {
+    const {
+      slideA,
+      slideB,
+      useA,
+    } = slides;
+
+    const incoming =
+      useA ? slideA : slideB;
+
+    const outgoing =
+      useA ? slideB : slideA;
+
+    const img =
+      incoming.querySelector('img');
 
     img.src = src;
     img.alt = alt;
 
     if (isFirst) {
-      incoming.classList.add('active', 'slide-enter');
+      incoming.classList.add(
+        'active',
+        'slide-enter'
+      );
+
       await wait(TRANSITION_MS);
-      incoming.classList.remove('slide-enter');
+
+      incoming.classList.remove(
+        'slide-enter'
+      );
+
       slides.useA = false;
+
       return;
     }
 
-    outgoing.classList.add('slide-exit');
-    incoming.classList.add('active', 'slide-enter');
+    outgoing.classList.add(
+      'slide-exit'
+    );
+
+    incoming.classList.add(
+      'active',
+      'slide-enter'
+    );
 
     await wait(TRANSITION_MS);
 
-    outgoing.classList.remove('active', 'slide-exit');
-    incoming.classList.remove('slide-enter');
+    outgoing.classList.remove(
+      'active',
+      'slide-exit'
+    );
+
+    incoming.classList.remove(
+      'slide-enter'
+    );
+
     slides.useA = !useA;
   }
 
   // ── Tela 5: Galeria ──
   async function resolvePhotoSrc(index) {
-    const photos = SITE_CONFIG.photos;
-    const photo = photos[index];
-    if (!photo) return SITE_CONFIG.photoFallbacks[0];
+    const photos =
+      SITE_CONFIG.photos;
 
-    const fallbacks = SITE_CONFIG.photoFallbacks || [];
-    const fallback = fallbacks[index] || fallbacks[fallbacks.length - 1] || photo.src;
+    const photo =
+      photos[index];
+
+    if (!photo) {
+      return SITE_CONFIG.photoFallbacks[0];
+    }
+
+    const fallbacks =
+      SITE_CONFIG.photoFallbacks || [];
+
+    const fallback =
+      fallbacks[index] ||
+      fallbacks[fallbacks.length - 1] ||
+      photo.src;
 
     return new Promise((resolve) => {
       const img = new Image();
-      img.onload = () => resolve(photo.src);
-      img.onerror = () => resolve(fallback);
+
+      img.onload =
+        () => resolve(photo.src);
+
+      img.onerror =
+        () => resolve(fallback);
+
       img.src = photo.src;
     });
   }
 
   async function initGallery() {
     gallerySlides.innerHTML = '';
-    galleryCaption.classList.remove('visible');
-    galleryCaption.classList.add('hidden');
+
+    galleryCaption.classList.remove(
+      'visible'
+    );
+
+    galleryCaption.classList.add(
+      'hidden'
+    );
 
     if (galleryFrame) {
       galleryFrame.style.opacity = '';
       galleryFrame.style.transform = '';
     }
-    screens.gallery.classList.remove('screen--fading');
 
-    const photoDuration = SITE_CONFIG.photoDuration || 10000;
-    const photos = SITE_CONFIG.photos;
+    screens.gallery.classList.remove(
+      'screen--fading'
+    );
+
+    const photoDuration =
+      SITE_CONFIG.photoDuration || 10000;
+
+    const photos =
+      SITE_CONFIG.photos;
 
     if (!musicStarted) {
       await startRomanticMusic();
@@ -479,209 +647,476 @@
 
     startGalleryHearts();
 
-    const slides = buildGallerySlides();
+    const slides =
+      buildGallerySlides();
+
     slides.useA = true;
 
-    const musicDuration = SITE_CONFIG.musicDuration || 100000;
-    const musicEndTime = musicStartTime + musicDuration;
+    const musicDuration =
+      SITE_CONFIG.musicDuration || 100000;
+
+    const musicEndTime =
+      musicStartTime + musicDuration;
+
     let slot = 0;
 
-    while (Date.now() < musicEndTime && !romanticMusic.ended && slot < photos.length) {
+    while (
+      Date.now() < musicEndTime &&
+      !romanticMusic.ended &&
+      slot < photos.length
+    ) {
       const photoIndex = slot;
-      const src = await resolvePhotoSrc(photoIndex);
-      const alt = photos[photoIndex].caption || `Memória ${photoIndex + 1}`;
 
-      await transitionPhoto(slides, src, alt, slot === 0);
+      const src =
+        await resolvePhotoSrc(
+          photoIndex
+        );
 
-      const caption = photos[photoIndex].caption;
-      const isLastPhoto = photoIndex === photos.length - 1;
+      const alt =
+        photos[photoIndex].caption ||
+        `Memória ${photoIndex + 1}`;
 
-      if (isLastPhoto || !caption) {
+      await transitionPhoto(
+        slides,
+        src,
+        alt,
+        slot === 0
+      );
+
+      const caption =
+        photos[photoIndex].caption;
+
+      const isLastPhoto =
+        photoIndex ===
+        photos.length - 1;
+
+      if (
+        isLastPhoto ||
+        !caption
+      ) {
         galleryCaption.textContent = '';
-        galleryCaption.classList.add('hidden');
-        galleryCaption.classList.remove('visible');
+
+        galleryCaption.classList.add(
+          'hidden'
+        );
+
+        galleryCaption.classList.remove(
+          'visible'
+        );
       } else {
-        galleryCaption.classList.remove('hidden');
-        galleryCaption.textContent = caption;
-        galleryCaption.classList.remove('visible');
+        galleryCaption.classList.remove(
+          'hidden'
+        );
+
+        galleryCaption.textContent =
+          caption;
+
+        galleryCaption.classList.remove(
+          'visible'
+        );
+
         void galleryCaption.offsetWidth;
-        galleryCaption.classList.add('visible');
+
+        galleryCaption.classList.add(
+          'visible'
+        );
       }
 
-      const remaining = musicEndTime - Date.now();
-      const waitTime = Math.min(photoDuration - TRANSITION_MS, remaining);
+      const remaining =
+        musicEndTime - Date.now();
+
+      const waitTime =
+        Math.min(
+          photoDuration - TRANSITION_MS,
+          remaining
+        );
+
       if (waitTime <= 0) break;
 
       await wait(waitTime);
+
       slot++;
     }
 
     stopGalleryHearts();
-    galleryCaption.classList.remove('visible');
-    galleryCaption.classList.add('hidden');
+
+    galleryCaption.classList.remove(
+      'visible'
+    );
+
+    galleryCaption.classList.add(
+      'hidden'
+    );
 
     fadeOutMusic();
 
     await fadeGalleryToDeclaration();
 
-    declarationLine.classList.remove('visible');
+    declarationLine.classList.remove(
+      'visible'
+    );
+
     declarationLine.textContent = '';
+
     await wait(600);
+
     initDeclaration();
   }
 
   function fadeOutMusic() {
     if (romanticMusic.paused) return;
 
-    const step = romanticMusic.volume / 20;
-    const interval = setInterval(() => {
-      if (romanticMusic.volume > step) {
-        romanticMusic.volume = Math.max(0, romanticMusic.volume - step);
-      } else {
-        romanticMusic.volume = 0;
-        romanticMusic.pause();
-        clearInterval(interval);
-      }
-    }, 100);
+    const step =
+      romanticMusic.volume / 20;
+
+    const interval =
+      setInterval(() => {
+        if (
+          romanticMusic.volume > step
+        ) {
+          romanticMusic.volume =
+            Math.max(
+              0,
+              romanticMusic.volume - step
+            );
+        } else {
+          romanticMusic.volume = 0;
+          romanticMusic.pause();
+
+          clearInterval(interval);
+        }
+      }, 100);
   }
 
   async function fadeGalleryToDeclaration() {
-    const galleryScreen = screens.gallery;
+    const galleryScreen =
+      screens.gallery;
 
     if (galleryFrame) {
       galleryFrame.style.opacity = '0';
-      galleryFrame.style.transform = 'scale(0.96)';
+
+      galleryFrame.style.transform =
+        'scale(0.96)';
     }
 
-    galleryScreen.classList.add('screen--fading');
+    galleryScreen.classList.add(
+      'screen--fading'
+    );
+
     await wait(2600);
 
     goToScreen('declaration');
 
     if (galleryFrame) {
       galleryFrame.style.opacity = '';
+
       galleryFrame.style.transform = '';
     }
-    galleryScreen.classList.remove('screen--fading');
+
+    galleryScreen.classList.remove(
+      'screen--fading'
+    );
   }
 
-  // ── Música do encerramento ──
-  async function startFinaleMusic() {
-    if (finaleMusicStarted || !finaleMusic) return;
+  // ───────────────────────────────────────
+  // MÚSICA FINAL
+  // ───────────────────────────────────────
+  //
+  // IMPORTANTE:
+  //
+  // Não usamos outro <audio>.
+  //
+  // Reutilizamos romanticMusic, que já recebeu
+  // autorização do navegador através do clique
+  // no botão "SIM".
+  //
+  // Isso melhora a compatibilidade com
+  // Safari/iPhone e navegadores móveis.
+  // ───────────────────────────────────────
 
-    finaleMusic.src = SITE_CONFIG.finaleMusicSrc || SITE_CONFIG.musicSrc;
-    finaleMusic.volume = 0;
-    finaleMusic.loop = true;
+  async function startFinaleMusic() {
+    if (
+      finaleMusicStarted ||
+      !romanticMusic
+    ) {
+      return;
+    }
 
     try {
-      await finaleMusic.play();
+      // Para completamente a primeira música.
+      romanticMusic.pause();
+
+      // Carrega a música final no MESMO elemento.
+      romanticMusic.src =
+        SITE_CONFIG.finaleMusicSrc ||
+        SITE_CONFIG.musicSrc;
+
+      romanticMusic.currentTime = 0;
+
+      romanticMusic.volume = 0;
+
+      romanticMusic.loop = true;
+
+      // Força o navegador a carregar
+      // o novo arquivo.
+      romanticMusic.load();
+
+      // Inicia a música final.
+      await romanticMusic.play();
+
       finaleMusicStarted = true;
-      fadeInVolume(finaleMusic, 0.6, 2000);
-    } catch {
-      try {
-        await finaleMusic.play();
-        finaleMusicStarted = true;
-        fadeInVolume(finaleMusic, 0.6, 2000);
-      } catch {
-        /* autoplay bloqueado */
-      }
+
+      console.log(
+        'Música final iniciada com sucesso.'
+      );
+
+      fadeInVolume(
+        romanticMusic,
+        0.6,
+        2000
+      );
+    } catch (error) {
+      console.error(
+        'ERRO AO INICIAR MÚSICA FINAL:',
+        error
+      );
     }
   }
 
-  function fadeInVolume(audio, targetVolume, durationMs) {
+  function fadeInVolume(
+    audio,
+    targetVolume,
+    durationMs
+  ) {
     const steps = 20;
-    const stepTime = durationMs / steps;
-    const increment = targetVolume / steps;
+
+    const stepTime =
+      durationMs / steps;
+
+    const increment =
+      targetVolume / steps;
+
     let step = 0;
 
-    const interval = setInterval(() => {
-      step++;
-      audio.volume = Math.min(targetVolume, increment * step);
-      if (step >= steps) clearInterval(interval);
-    }, stepTime);
+    const interval =
+      setInterval(() => {
+        step++;
+
+        audio.volume =
+          Math.min(
+            targetVolume,
+            increment * step
+          );
+
+        if (step >= steps) {
+          clearInterval(interval);
+        }
+      }, stepTime);
   }
 
-  // ── Fade de texto (declaração e créditos) ──
-  async function showFadeLine(element, text, holdMs = 2500, extraClass = '') {
-    element.classList.remove('visible', 'declaration-line--name');
-    if (extraClass) element.classList.add(extraClass);
+  // ── Fade de texto ──
+  async function showFadeLine(
+    element,
+    text,
+    holdMs = 2500,
+    extraClass = ''
+  ) {
+    element.classList.remove(
+      'visible',
+      'declaration-line--name'
+    );
+
+    if (extraClass) {
+      element.classList.add(
+        extraClass
+      );
+    }
+
     element.textContent = text;
+
     await wait(150);
-    element.classList.add('visible');
+
+    element.classList.add(
+      'visible'
+    );
+
     await wait(holdMs);
   }
 
   // ── Tela 6: Declaração final ──
   async function initDeclaration() {
+
+    /*
+     * Aqui começa a música final.
+     *
+     * O mesmo elemento de áudio utilizado
+     * anteriormente é reutilizado.
+     */
     await startFinaleMusic();
 
-    const lines = ['Eu te amo.', 'Hoje.', 'Amanhã.', 'Para sempre.'];
+    const lines = [
+      'Eu te amo.',
+      'Hoje.',
+      'Amanhã.',
+      'Para sempre.',
+    ];
 
     for (const line of lines) {
-      const hold = line === 'Para sempre.' ? 4000 : 2500;
-      await showFadeLine(declarationLine, line, hold);
+      const hold =
+        line === 'Para sempre.'
+          ? 4000
+          : 2500;
+
+      await showFadeLine(
+        declarationLine,
+        line,
+        hold
+      );
     }
 
     await wait(1500);
+
     goToScreen('credits');
-    creditsLine.classList.remove('visible', 'declaration-line--name');
+
+    creditsLine.classList.remove(
+      'visible',
+      'declaration-line--name'
+    );
+
     creditsLine.textContent = '';
-    btnFinale.classList.add('hidden');
-    btnFinale.classList.remove('visible', 'clicked');
+
+    btnFinale.classList.add(
+      'hidden'
+    );
+
+    btnFinale.classList.remove(
+      'visible',
+      'clicked'
+    );
+
     initCredits();
   }
 
-  // ── Pós-créditos: "eu te amo" em vários idiomas ──
+  // ── Pós-créditos ──
   async function initCredits() {
-    const translations = SITE_CONFIG.loveTranslations || [];
-    const finale = SITE_CONFIG.finaleLines || [];
+    const translations =
+      SITE_CONFIG.loveTranslations || [];
+
+    const finale =
+      SITE_CONFIG.finaleLines || [];
 
     for (const line of translations) {
-      await showFadeLine(creditsLine, line, 2200);
+      await showFadeLine(
+        creditsLine,
+        line,
+        2200
+      );
     }
 
     await wait(800);
 
-    for (let i = 0; i < finale.length; i++) {
-      const hold = 3500;
-      await showFadeLine(creditsLine, finale[i], hold);
+    for (
+      let i = 0;
+      i < finale.length;
+      i++
+    ) {
+      await showFadeLine(
+        creditsLine,
+        finale[i],
+        3500
+      );
     }
 
     await wait(1000);
-    await showFadeLine(creditsLine, SITE_CONFIG.finalLoveLine || 'eu te amo.', 3500);
 
-    creditsLine.classList.remove('visible');
+    await showFadeLine(
+      creditsLine,
+      SITE_CONFIG.finalLoveLine ||
+        'eu te amo.',
+      3500
+    );
+
+    creditsLine.classList.remove(
+      'visible'
+    );
+
     await wait(600);
 
-    creditsLine.classList.remove('declaration-line--name');
-    creditsLine.classList.add('declaration-line--name');
-    creditsLine.textContent = (SITE_CONFIG.herName || 'Laura').toUpperCase();
+    creditsLine.classList.remove(
+      'declaration-line--name'
+    );
+
+    creditsLine.classList.add(
+      'declaration-line--name'
+    );
+
+    creditsLine.textContent =
+      (
+        SITE_CONFIG.herName ||
+        'Laura'
+      ).toUpperCase();
+
     await wait(200);
-    creditsLine.classList.add('visible');
+
+    creditsLine.classList.add(
+      'visible'
+    );
 
     await wait(3500);
 
-    btnFinale.textContent = SITE_CONFIG.finaleButtonText || 'eu também te amo, meu amor';
-    btnFinale.classList.remove('hidden', 'clicked');
+    btnFinale.textContent =
+      SITE_CONFIG.finaleButtonText ||
+      'eu também te amo, meu amor';
+
+    btnFinale.classList.remove(
+      'hidden',
+      'clicked'
+    );
+
     await wait(100);
-    btnFinale.classList.add('visible');
+
+    btnFinale.classList.add(
+      'visible'
+    );
   }
 
-  btnFinale.addEventListener('click', () => {
-    btnFinale.classList.add('clicked');
-    spawnParticles(50);
+  btnFinale.addEventListener(
+    'click',
+    () => {
+      btnFinale.classList.add(
+        'clicked'
+      );
 
-    const rect = btnFinale.getBoundingClientRect();
-    spawnFloatingHearts(rect.left + rect.width / 2, rect.top + rect.height / 2, 12);
-  });
+      spawnParticles(50);
 
-  // ── Resize handler ──
-  window.addEventListener('resize', () => {
-    if (particlesCanvas.classList.contains('active')) {
-      particlesCanvas.width = window.innerWidth;
-      particlesCanvas.height = window.innerHeight;
+      const rect =
+        btnFinale.getBoundingClientRect();
+
+      spawnFloatingHearts(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2,
+        12
+      );
     }
-  });
+  );
+
+  // ── Resize ──
+  window.addEventListener(
+    'resize',
+    () => {
+      if (
+        particlesCanvas.classList.contains(
+          'active'
+        )
+      ) {
+        particlesCanvas.width =
+          window.innerWidth;
+
+        particlesCanvas.height =
+          window.innerHeight;
+      }
+    }
+  );
 
   // ── Iniciar ──
   runIntroTyping();
