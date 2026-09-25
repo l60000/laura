@@ -1,4 +1,3 @@
-javascript
 /**
  * Dia dos Namorados — Experiência Romântica
  */
