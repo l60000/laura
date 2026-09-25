@@ -314,12 +314,28 @@
     }
 
     btnYes.addEventListener('click', async () => {
-      spawnParticles(40);
-      await startRomanticMusic();
-      await transitionTo('gallery');
-      initGallery();
-    });
+  spawnParticles(40);
+
+  // Desbloqueia a música final enquanto ainda estamos
+  // dentro de uma interação direta do usuário.
+  if (finaleMusic) {
+    finaleMusic.src = SITE_CONFIG.finaleMusicSrc || SITE_CONFIG.musicSrc;
+    finaleMusic.volume = 0;
+    finaleMusic.loop = true;
+
+    try {
+      await finaleMusic.play();
+      finaleMusic.pause();
+      finaleMusic.currentTime = 0;
+    } catch (error) {
+      console.log('Não foi possível preparar a música final:', error);
+    }
   }
+
+  await startRomanticMusic();
+  await transitionTo('gallery');
+  initGallery();
+});
 
   // ── Música romântica ──
   async function startRomanticMusic() {
